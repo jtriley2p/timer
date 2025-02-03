@@ -17,7 +17,7 @@ impl<'a, const M: usize> SliceVectorTimer<'a, M> {
     pub fn with_timestamp(timestamp: usize) -> Self {
         Self {
             timestamp,
-            timers: [const{ Vec::new() }; M],
+            timers: [const { Vec::new() }; M],
         }
     }
 
@@ -32,7 +32,9 @@ impl<'a, const M: usize> SliceVectorTimer<'a, M> {
     pub fn tick(&mut self) {
         self.timestamp = (self.timestamp + 1) % M;
 
-        self.timers[self.timestamp].iter_mut().for_each(|agent| agent.action());
+        self.timers[self.timestamp]
+            .iter_mut()
+            .for_each(|agent| agent.action());
 
         self.timers[self.timestamp].clear();
     }
@@ -70,7 +72,9 @@ impl<'a> VectorVectorTimer<'a> {
     pub fn tick(&mut self) {
         self.timestamp += 1;
 
-        self.timers.iter_mut().for_each(|agents| agents.iter_mut().for_each(|agent| agent.action()));
+        self.timers
+            .iter_mut()
+            .for_each(|agents| agents.iter_mut().for_each(|agent| agent.action()));
 
         self.timers.clear();
     }
@@ -89,7 +93,7 @@ impl<'a, const M: usize, const N: usize> SliceSmallVectorTimer<'a, M, N> {
     pub fn with_timestamp(timestamp: usize) -> Self {
         Self {
             timestamp,
-            timers: [const{ SmallVec::new_const() }; M],
+            timers: [const { SmallVec::new_const() }; M],
         }
     }
 
@@ -104,7 +108,9 @@ impl<'a, const M: usize, const N: usize> SliceSmallVectorTimer<'a, M, N> {
     pub fn tick(&mut self) {
         self.timestamp = (self.timestamp + 1) % M;
 
-        self.timers[self.timestamp].iter_mut().for_each(|agent| agent.action());
+        self.timers[self.timestamp]
+            .iter_mut()
+            .for_each(|agent| agent.action());
 
         self.timers[self.timestamp].clear();
     }

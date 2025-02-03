@@ -57,7 +57,13 @@ impl Time {
         )
         .inner;
 
-        (roll_seconds, roll_minutes, roll_hours, roll_days, roll_clock)
+        (
+            roll_seconds,
+            roll_minutes,
+            roll_hours,
+            roll_days,
+            roll_clock,
+        )
     }
 
     pub const fn from_inner(inner: u64) -> Self {

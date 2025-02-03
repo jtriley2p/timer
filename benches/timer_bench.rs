@@ -1,5 +1,5 @@
-use std::hint::black_box;
 use criterion::{criterion_group, criterion_main, Criterion};
+use std::hint::black_box;
 
 use timer::*;
 
@@ -52,12 +52,22 @@ fn slice_smallvector_bench<const M: usize, const N: usize>(agents: &mut [BenchAg
 macro_rules! bench_group {
     ($name:ident, $m:expr, $n:expr) => {
         fn $name(c: &mut Criterion) {
-            let mut agents: Vec<BenchAgent> = (0..($m * $n)).map(|_| BenchAgent { value: black_box(420) }).collect();
+            let mut agents: Vec<BenchAgent> = (0..($m * $n))
+                .map(|_| BenchAgent {
+                    value: black_box(420),
+                })
+                .collect();
 
             c.benchmark_group(stringify!($name))
-                .bench_function("slice_vector_timer", |b| b.iter(|| slice_vector_bench::<$m>(&mut agents)))
-                .bench_function("vector_vector_timer", |b| b.iter(|| vector_vector_bench(black_box($m), &mut agents)))
-                .bench_function("slice_smallvector_timer", |b| b.iter(|| slice_smallvector_bench::<$m, $n>(&mut agents)));
+                .bench_function("slice_vector_timer", |b| {
+                    b.iter(|| slice_vector_bench::<$m>(&mut agents))
+                })
+                .bench_function("vector_vector_timer", |b| {
+                    b.iter(|| vector_vector_bench(black_box($m), &mut agents))
+                })
+                .bench_function("slice_smallvector_timer", |b| {
+                    b.iter(|| slice_smallvector_bench::<$m, $n>(&mut agents))
+                });
         }
     };
 }
